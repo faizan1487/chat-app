@@ -1,2 +1,2 @@
 # chat-app
-This is a chat app built over web scokets using django channels.
+This is a chat app built over web sockets using django channels.
