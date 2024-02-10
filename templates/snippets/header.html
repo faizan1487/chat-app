@@ -1,0 +1,146 @@
+{% load static %}
+
+
+<style type="text/css">
+    .my-nav{
+        border: 1px solid black;
+    }
+
+    .my-login{
+        border: 1px solid red;
+    }
+
+    .my-nav-chat-icon{
+        border: 1px solid red;
+    }
+
+    .my-nav-chat-icon1{
+        border: 1px solid blue;
+    }
+
+    .my-nav-chat-icon2{
+        border: 1px solid orange;
+    }
+
+    .my-nav-chat{
+        border: 1px solid green;
+    }
+</style>
+
+
+<div class="d-flex p-3 px-md-4 mb-4 bg-white border-bottom shadow-sm">
+
+    <!-- medium+ screens -->
+    <div class="d-none d-md-flex flex-row my-auto flex-grow-1 align-items-center">
+
+        <!--col 1-->
+        <h5 class="mr-3 font-weight-normal justify-content-start">
+            <a class="p-2 text-dark" href="{% url 'home' %}">Home</a>
+        </h5>
+
+        <!--col 2-->
+        <form class="search-bar justify-content-start">
+            <input type="text" class="form-control" name="q" id="id_q_large" placeholder="search...">
+        </form>
+
+        <!--col 3-->
+        <div class="d-flex flex-row-reverse flex-grow-1 ">
+            <nav>
+                {% if request.user.is_authenticated %}
+                    <div class="dropdown dropleft show p-2">
+                        <div class="d-flex flex-row">
+
+                            <!--chat notifications-->
+                            <div class="btn-group dropleft">
+                                <div class="d-flex notifications-icon-container rounded-circle align-items-center mr-3" id="id_chat_notification_dropdown_toggle"
+                                data-toggle="dropdown">
+                                    <span id="id_chat_notifications_count" class="notify_badge"></span>
+                                    <span class="d-flex material-icons notifications-material-icon m-auto align-items-center">chat</span>
+                                    <div class="dropdown-menu scrollable-menu " aria-labelledby="id_chat_notification_dropdown_toggle" id="id_chat_notifications_container">  
+                                    </div>
+                                </div>
+                            </div>
+
+
+                            <!--general notifs-->
+                            <div class="btn-group dropleft">
+                                <div class="d-flex notifications-icon-container rounded-circle align-items-center mr-3" id="id_notification_dropdown_toggle"
+                                data-toggle="dropdown">
+                                    <span id="id_general_notifications_count" class="notify_badge"></span>
+                                    <span class="d-flex material-icons notifications-material-icon m-auto align-items-center">notifications</span>
+                                    <div class="dropdown-menu scrollable-menu " aria-labelledby="id_notification_dropdown_toggle" id="id_general_notifications_container">  
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="btn-group dropleft">
+                                <img class="account-image rounded-circle m-auto d-block dropdown-toggle" id="id_profile_links" data-toggle="dropdown" aria-haspopup="true"
+                                aria-expanded="false" src="{{request.user.profile_image.url}}" alt="codingwithmitch logo" width="40" height="40">
+                                <div class="dropdown-menu" aria-labelledby="id_profile_links">
+                                    <a class="dropdown_item" href="#">Account</a>
+                                    <a class="dropdown-item" href="#">Logout</a>
+                                </div>
+                            </div>
+
+
+                        </div>     
+                    </div>
+
+                    
+
+                {% else %}
+                    <a class="my-login p-2 text-dark" href="#">Login</a>
+                    <a class="btn btn-outline-primary" href="#">Register</a>
+                {% endif %}
+            </nav>
+        </div>
+    </div>
+
+    <!--End medium+ screen-->
+
+    <!-- small- screens-->
+    <div class="d-flex d-md-none flex-column m-auto align-items-center">
+
+        <!--Row 1-->
+        <div class="font-weight-normal mt-2">
+            <a class="p-2 text-dark " href="{% url 'home' %}">Home</a>
+        </div>
+
+        <!--Row 2-->
+        <form class="search-bar justify-content-start">
+            <input type="text" class="form-control" name="q" id="id_q_small" placeholder="search...">
+        </form>
+
+        <!--Row 3-->
+        <div class="d-flex flex-row-reverse flex-grow-1">
+            <nav>
+                {% if request.user.is_authenticated %}
+                    <div class="dropdown dropleft p-2 m-2">
+                        <div class="d-flex flex-row">
+                            <div class="btn-group dropleft">
+                                <img class="account-image rounded-circle m-auto d-block dropdown-toggle" id="id_profile_links" data-toggle="dropdown" aria-haspopup="true"
+                                aria-expanded="false" src="{{request.user.profile_image.url}}" alt="codingwithmitch logo" width="40" height="40">
+                                <div class="dropdown-menu" aria-labelledby="id_profile_links">
+                                    <a class="dropdown_item" href="#">Account</a>
+                                    <a class="dropdown-item" href="#">Logout</a>
+                                </div>
+                            </div>
+
+
+                        </div>     
+                    </div>
+                {% else %}
+                    <a class="p-2 text-dark" href="#">Login</a>
+                    <a class="btn btn-outline-primary m-2"  href="#">Register</a>
+                {% endif %}
+            </nav>
+        </div>
+
+    </div>
+
+
+    	
+
+    
+    <!--end small screen-->
+</div>
