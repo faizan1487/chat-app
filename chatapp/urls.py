@@ -18,9 +18,13 @@ from django.conf import settings
 from django.conf.urls.static import static
 from django.urls import path, include
 
+from account.views import register_view
+# from personal import urls
+
 urlpatterns = [
-    path('admin/', admin.site.urls),
     path('', include('personal.urls')),
+    path('admin/', admin.site.urls),
+    path('register/', register_view, name='register'),
 ]
 
 if settings.DEBUG:

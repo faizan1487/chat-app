@@ -16,7 +16,7 @@ class MyAccountManager(BaseUserManager):
 			email=self.normalize_email(email),
 			username=username,
 		)
-
+		
 		user.set_password(password)
 		user.save(using=self._db)
 		return user
@@ -24,8 +24,8 @@ class MyAccountManager(BaseUserManager):
 	def create_superuser(self, email, username, password):
 		user = self.create_user(
 			email=self.normalize_email(email),
-			password=password,
 			username=username,
+			password=password,
 		)
 		user.is_admin = True
 		user.is_staff = True
@@ -50,7 +50,7 @@ class Account(AbstractBaseUser):
 	is_superuser			= models.BooleanField(default=False)
 	profile_image			= models.ImageField(max_length=255, upload_to=get_profile_image_filepath, null=True, blank=True, default=get_default_profile_image)
 	hide_email				= models.BooleanField(default=True)
-
+	
 	USERNAME_FIELD = 'email'
 	REQUIRED_FIELDS = ['username']
 
