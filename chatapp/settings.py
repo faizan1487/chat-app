@@ -93,7 +93,7 @@ WSGI_APPLICATION = 'chatapp.wsgi.application'
 
 DB_NAME = "chat_app"
 DB_USER = "django"
-DB_PASSWORD = "password"
+DB_PASSWORD = "admin"
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql_psycopg2',
@@ -105,6 +105,13 @@ DATABASES = {
     }
 }
 
+
+# DATABASES = {
+#     'default': {
+#         'ENGINE': 'django.db.backends.sqlite3',
+#         'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
+#     }
+# }
 
 CHANNEL_LAYERS = {
     'default': {
