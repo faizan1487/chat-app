@@ -19,14 +19,18 @@ from django.conf.urls.static import static
 from django.urls import path, include
 from django.contrib.auth import views as auth_views
 
-from account.views import register_view, login_view, logout_view
-
+from account.views import (
+    register_view, 
+    login_view, 
+    logout_view,
+)
 
 
 # from personal import urls
 
 urlpatterns = [
     path('', include('personal.urls')),
+    path('account/', include('account.urls', namespace='account')),
     path('admin/', admin.site.urls),
     path('login/', login_view, name='login'),
     path('logout/', logout_view, name='logout'),
