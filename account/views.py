@@ -47,7 +47,7 @@ def login_view(request):
 	if user.is_authenticated:
 		return redirect("home")
 
-	
+
 	if request.POST:
 		form = AccountAuthenticationForm(request.POST)
 		if form.is_valid:
@@ -60,6 +60,8 @@ def login_view(request):
 				if destination:
 					return redirect(destination)
 				return redirect("home")
+			# else:
+			# 	context['login_form'] = form
 		else:
 			context['login_form'] = form
 	
