@@ -117,3 +117,22 @@ def account_view(request, *args,**kwargs):
 	context['BASE_URL'] = settings.BASE_URL
 
 	return render(request, 'account/account.html', context)
+
+from django.db.models import Q
+
+
+def account_search_view(request, *args, **kwargs):
+	context = {}
+
+	if request.method == "GET":
+		search_query = request.GET.get("q")
+		if len(search_query) > 0:
+			search_results = Account.objects.filter(
+				Q(email__icontains=search_query) | Q(username__icontains=search_query)
+				)
+			user = request.user
+			accounts = []
+			for account in search_results:
+				accounts.append((account, False))
+			context['accounts'] = accounts
+	return render(request, "account/search_results.html",context)
