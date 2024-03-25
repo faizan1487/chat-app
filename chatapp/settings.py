@@ -83,21 +83,16 @@ TEMPLATES = [
 ]
 
 
-
-
-
-
-
-
 WSGI_APPLICATION = 'chatapp.wsgi.application'
 
-
+  
 # Database
 # https://docs.djangoproject.com/en/5.0/ref/settings/#databases
 
 DB_NAME = "chat_app"
 DB_USER = "django"
 DB_PASSWORD = "admin"
+# DB_PASSWORD = "password"
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql_psycopg2',
@@ -107,7 +102,7 @@ DATABASES = {
         'HOST': 'localhost',
         'PORT': '5432',
     }
-}
+}  
 
 
 # DATABASES = {
