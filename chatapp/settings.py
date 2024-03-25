@@ -83,12 +83,6 @@ TEMPLATES = [
 ]
 
 
-
-
-
-
-
-
 WSGI_APPLICATION = 'chatapp.wsgi.application'
 
 
@@ -97,7 +91,7 @@ WSGI_APPLICATION = 'chatapp.wsgi.application'
 
 DB_NAME = "chat_app"
 DB_USER = "django"
-DB_PASSWORD = "admin"
+DB_PASSWORD = "password"
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql_psycopg2',
