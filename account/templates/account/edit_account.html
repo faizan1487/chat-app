@@ -238,7 +238,7 @@
 			$.ajax({
 				type: 'POST',
 				dataType: "json",
-				url: "{% url 'account:crop_image' user_id=form.initial.id %}",
+				url: "",
 				data: requestData,
 				timeout: 10000,
 				success: function(data) {
@@ -297,14 +297,14 @@
             reader.readAsDataURL(input.files[0]);
         }
     };
-
+{% comment %} 
     function setImageCropProperties(image, x, y, width, height){
 		imageFile = image
 		cropX = x
 		cropY = y
 		cropWidth = width
 		cropHeight = height
-	}
+	} {% endcomment %}
 
 </script>
 
