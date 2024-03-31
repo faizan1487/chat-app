@@ -168,7 +168,7 @@ def edit_account_view(request, *args, **kwargs):
 			context["form"] = form
 			
 	else:
-		form = AccountUpdateForm(request.POST, instance=request.user,
+		form = AccountUpdateForm(
 							initial={
 								"id": account.pk,
 								"email": account.email,
