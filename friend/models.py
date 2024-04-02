@@ -40,3 +40,24 @@ class FriendList(models.Model):
         friend_list = FriendList.objects.get(user=removee)
         friend_list.remove_friend(self.user)
 
+    def is_mutual_friend(self, friend):
+        """
+        is this a friend?
+        """
+
+        if friend in self.friends.all():
+            return True
+        return False
+
+
+
+# class FriendRequest(models.Model):
+#     """
+#     A friend request consists of two main parts:
+#         1. SENDER
+#             - Person sending the friend request
+#         2.  RECEIVER
+#             - Person receiving the friend request
+#     """
+
+#     sender = models.ForeignKey()
