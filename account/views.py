@@ -3,10 +3,11 @@ from django.http import HttpResponse
 from django.contrib.auth import login, authenticate, logout
 from django.conf import settings
 from friend.utils import get_friend_request_or_false
+from friend.friend_request_status import FriendRequestStatus
 
 from account.forms import RegistrationForm,AccountAuthenticationForm, AccountUpdateForm
 from .models import Account
-
+from friend.models import FriendList, FriendRequest
 def register_view(request, *args, **kwargs):
 	user = request.user
 	if user.is_authenticated: 
@@ -109,16 +110,18 @@ def account_view(request, *args,**kwargs):
 	try:
 		friend_list = FriendList.objects.get(user=account)
 	except FriendList.DoesNotExist:
-		friend_list = friend_list.friends.all()
-		context['friends'] = friends
+		friend_list = FriendList.objects.all()
+		context['friends'] = friend_list
 
 	#Define state template variables
 	is_self = True
 	is_friend = False
 	user = request.user
+	request_sent = FriendRequestStatus.NO_REQUEST_SENT.value
+	friend_requests = None
 	if user.is_authenticated and user != account:
 		is_self = False
-		if friends.filter(pk=user.id):
+		if friend_list.filter(pk=user.id):
 			is_friend = True
 		else:
 			is_friend = False
@@ -135,7 +138,7 @@ def account_view(request, *args,**kwargs):
 			# FriendRequestStatus.NO_REQUEST_SENT
 			else:
 				request_sent = FriendRequestStatus.NO_REQUEST_SENT.value
-
+	
 	elif not user.is_authenticated:
 		is_self = False
 	else:
@@ -146,7 +149,8 @@ def account_view(request, *args,**kwargs):
 	context['is_self'] = is_self
 	context['is_friend'] = is_friend
 	context['BASE_URL'] = settings.BASE_URL
-
+	context['request_sent'] = request_sent
+	context['friend_requests'] = friend_requests
 	return render(request, 'account/account.html', context)
 
 from django.db.models import Q
