@@ -2,7 +2,7 @@ from django.shortcuts import render
 from django.http import HttpResponse
 import json
 
-from account.models import account
+from account.models import Account
 from friend.models import FriendRequest
 # Create your views here.
 
@@ -34,7 +34,7 @@ def send_friend_request(request, *args, **kwargs):
                 friend_request.save()
                 payload['response'] = "Friend request sent"
             
-            if payload['response'] = None:
+            if payload['response'] == None:
                 payload['response'] = "Something went wrong."
         else:
             payload['response'] = "Unable to send a friend request."
