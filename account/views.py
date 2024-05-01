@@ -13,20 +13,6 @@ from django.shortcuts import render, redirect
 
 
 
-def friend_requests(request, *args, **kwargs):
-	context = {}
-	user = request.user
-	if user.is_authenticated:
-		user_id = kwargs.get("user_id")
-		account = Account.objects.get(pk=user_id)
-		if account == user:
-			friend_requests = FriendRequest.objects.filter(receiver=account, is_active=True)
-			context['friend_requests'] = friend_requests
-		else:
-			return HttpResponse("You can't view another users friend requests.")
-	else:
-		redirect("login")
-	return render(request, "friend/friend_requests.html", context)
 
 
 
