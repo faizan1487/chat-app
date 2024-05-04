@@ -7,13 +7,6 @@ from friend.models import FriendRequest
 # Create your views here.
 
 
-
-
-
-
-
-
-
 def friend_requests(request, *args, **kwargs):
 	context = {}
 	user = request.user
@@ -28,8 +21,6 @@ def friend_requests(request, *args, **kwargs):
 	else:
 		redirect("login")
 	return render(request, "friend/friend_requests.html", context)
-
-
 
 
 
@@ -72,4 +63,18 @@ def send_friend_request(request, *args, **kwargs):
 
 
 
-    
+def accept_friend_request(request, *args, **kwargs):
+    user = request.user
+    payload = {} 
+    if request.method == 'GET' and user.is_authenticated:
+        friend_request_id = kwargs.get("friend_request_id")
+        if friend_request_id:
+            friend_request = FriendRequest.objects.get(pk=friend_request_id)
+            
+            if friend_request.receiver == user:
+                if friend_request:
+                    #FOund the request noe accept it
+                    friend_request.accept()
+                    payload['response'] = "Friend request accepted"
+                else:
+                    payload['response'] = "Something went wrong"
