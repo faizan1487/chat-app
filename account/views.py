@@ -10,7 +10,7 @@ from .models import Account
 from friend.models import FriendList, FriendRequest
 
 from django.shortcuts import render, redirect
-
+from django.db.models import Q
 
 
 
@@ -159,7 +159,7 @@ def account_view(request, *args,**kwargs):
 	context['friend_requests'] = friend_requests
 	return render(request, 'account/account.html', context)
 
-from django.db.models import Q
+
 
 
 def account_search_view(request, *args, **kwargs):
