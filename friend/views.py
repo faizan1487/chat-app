@@ -78,3 +78,7 @@ def accept_friend_request(request, *args, **kwargs):
                     payload['response'] = "Friend request accepted"
                 else:
                     payload['response'] = "Something went wrong"
+
+
+
+

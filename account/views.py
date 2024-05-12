@@ -14,10 +14,6 @@ from django.shortcuts import render, redirect
 
 
 
-
-
-
-
 def register_view(request, *args, **kwargs):
 	user = request.user
 	if user.is_authenticated: 
