@@ -59,7 +59,7 @@ class FriendRequest(models.Model):
         2.  RECEIVER
             - Person receiving the friend request
     """
-
+  
     sender = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, related_name="sender")
     receiver = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, related_name="receiver")
 
@@ -77,7 +77,9 @@ class FriendRequest(models.Model):
         Accept a friend request
         update both sender and receiver friend lists
         """
+        print("self receiver",self.receiver)
         receiver_friend_list = FriendList.objects.get(user=self.receiver)
+        print("receiver_friend_list",receiver_friend_list)
         if receiver_friend_list:
             receiver_friend_list.add_friend(self.sender)
             sender_friend_list = FriendList.objects.get(user=self.sender)
