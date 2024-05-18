@@ -18,7 +18,7 @@ def register_view(request, *args, **kwargs):
 	user = request.user
 	if user.is_authenticated: 
 		return HttpResponse("You are already authenticated as " + str(user.email))
-
+	
 	context = {}
 	if request.POST:
 		form = RegistrationForm(request.POST)

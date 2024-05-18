@@ -59,7 +59,7 @@ class FriendRequest(models.Model):
         2.  RECEIVER
             - Person receiving the friend request
     """
-
+  
     sender = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, related_name="sender")
     receiver = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, related_name="receiver")
 

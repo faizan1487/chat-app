@@ -80,7 +80,12 @@ def accept_friend_request(request, *args, **kwargs):
                     payload['response'] = "Friend request accepted"
                 else:
                     payload['response'] = "Something went wrong"
-
-
+            else:
+                payload['response'] = "This is not your request to accept"
+        else:
+            payload['response'] = "Unable to accept that friend request"
+    else:
+        payload['response'] = "You must be authenticated to accept a friend request"
+    return HttpResponse(json.dumps(payload), content_type="application/json")
 
 
