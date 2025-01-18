@@ -91,8 +91,8 @@ WSGI_APPLICATION = 'chatapp.wsgi.application'
 # https://docs.djangoproject.com/en/5.0/ref/settings/#databases
 
 DB_NAME = "chat_app"
-DB_USER = "django"
-DB_PASSWORD = "admin"
+DB_USER = "postgres"
+DB_PASSWORD = "root"
 # DB_PASSWORD = "password"
 DATABASES = {
     'default': {
@@ -101,7 +101,7 @@ DATABASES = {
         'USER': DB_USER,
         'PASSWORD': DB_PASSWORD,
         'HOST': 'localhost',
-        'PORT': '5432',
+        'PORT': '5433',
     }
 }  
 

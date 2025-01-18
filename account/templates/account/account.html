@@ -158,7 +158,7 @@
 			</div>
 
 			{% if friend_requests %}
-			<div class="card m-2 px-4 pb-4">
+			<div class="card m-2 px-4 pb-4"> 
 				<!-- Friend requests -->
 		  		<div class="d-flex flex-column pt-4">
 					<a href="{% url 'friend:friend-requests' user_id=id %}">
@@ -230,7 +230,7 @@
 	var removeFriendBtn = document.getElementById("id_unfriend_btn")
 	if (removeFriendBtn != null){
 		removeFriendBtn.addEventListener("click", function(){
-			// removeFriend("{{id}}", onFriendRemoved)
+			removeFriend("{{id}}", onFriendRemoved)
 		})
 	}
 
@@ -248,7 +248,7 @@
 {% include 'friend/snippets/accept_friend_request.html' %}
 {#% include 'friend/snippets/decline_friend_request.html' %#}
 {#% include 'friend/snippets/cancel_friend_request.html' %#}
-{#% include 'friend/snippets/remove_friend.html' %#}
+{% include 'friend/snippets/remove_friend.html' %}
 {#% include 'chat/snippets/create_or_return_private_chat.html' %#}
 
 

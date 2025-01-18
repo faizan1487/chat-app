@@ -5,13 +5,10 @@ from django.conf import settings
 from friend.utils import get_friend_request_or_false
 from friend.friend_request_status import FriendRequestStatus
 
-from account.forms import RegistrationForm,AccountAuthenticationForm, AccountUpdateForm
+from account.forms import RegistrationForm, AccountAuthenticationForm, AccountUpdateForm
 from .models import Account
 from friend.models import FriendList, FriendRequest
-
-from django.shortcuts import render, redirect
 from django.db.models import Q
-
 
 
 def register_view(request, *args, **kwargs):
@@ -41,12 +38,9 @@ def register_view(request, *args, **kwargs):
 	return render(request, 'account/register.html', context)
 
 
-
 def logout_view(request):
 	logout(request)
 	return redirect("home")
-
-
 
 
 def login_view(request):
@@ -56,15 +50,14 @@ def login_view(request):
 	if user.is_authenticated:
 		return redirect("home")
 
-
 	if request.POST:
 		form = AccountAuthenticationForm(request.POST)
 		if form.is_valid:
 			email = request.POST['email']
 			password = request.POST['password']
-			user = authenticate(email=email,password=password)
+			user = authenticate(email=email, password=password)
 			if user:
-				login(request,user)
+				login(request, user)
 				destination = get_redirect_if_exists(request)
 				if destination:
 					return redirect(destination)
@@ -77,8 +70,6 @@ def login_view(request):
 	return render(request, "account/login.html",context)
 
 
-
-
 def get_redirect_if_exists(request):
 	redirect = None
 	if request.GET:
@@ -87,9 +78,7 @@ def get_redirect_if_exists(request):
 	return redirect
 
 
-
-
-def account_view(request, *args,**kwargs):
+def account_view(request, *args, **kwargs):
 	"""
 	Logic here is kind of tricky
 	-is_self (boolean)
@@ -111,14 +100,13 @@ def account_view(request, *args,**kwargs):
 		context['email'] = account.email
 		context['profile_image'] = account.profile_image
 		context['hide_email'] = account.hide_email
-
-
 	try:
 		friend_list = FriendList.objects.get(user=account)
 	except FriendList.DoesNotExist:
-		friend_list = FriendList.objects.all()
-		context['friends'] = friend_list
-
+		friend_list = FriendList(user=account)
+		friend_list.save()
+	friends = friend_list.friends.all()
+	context['friends'] = friends
 	#Define state template variables
 	is_self = True
 	is_friend = False
@@ -127,7 +115,7 @@ def account_view(request, *args,**kwargs):
 	friend_requests = None
 	if user.is_authenticated and user != account:
 		is_self = False
-		if friend_list.filter(pk=user.id):
+		if friends.filter(pk=user.id):
 			is_friend = True
 		else:
 			is_friend = False
@@ -138,9 +126,9 @@ def account_view(request, *args,**kwargs):
 				context['pending_friend_request_id'] = get_friend_request_or_false(sender=account, receiver=user).id
 			#Case2: Request has been sent from YOU to THEM:  
 			# FriendRequestStatus.YOU_SENT_TO_THEM
-			elif get_friend_request_or_false(sender=account, receiver=user) != False:
+			elif get_friend_request_or_false(sender=user, receiver=account) != False:
 				request_sent = FriendRequestStatus.YOU_SENT_TO_THEM.value
-			#CASE3: No request has been sent
+			#CASE3: No request has been sent  
 			# FriendRequestStatus.NO_REQUEST_SENT
 			else:
 				request_sent = FriendRequestStatus.NO_REQUEST_SENT.value
@@ -152,14 +140,13 @@ def account_view(request, *args,**kwargs):
 			friend_requests = FriendRequest.objects.filter(receiver=user, is_active=True)
 		except:
 			pass
+
 	context['is_self'] = is_self
 	context['is_friend'] = is_friend
 	context['BASE_URL'] = settings.BASE_URL
 	context['request_sent'] = request_sent
 	context['friend_requests'] = friend_requests
 	return render(request, 'account/account.html', context)
-
-
 
 
 def account_search_view(request, *args, **kwargs):
@@ -173,11 +160,14 @@ def account_search_view(request, *args, **kwargs):
 				)
 			user = request.user
 			accounts = []
+			user_friends = user.user.friends.all()
 			for account in search_results:
-				accounts.append((account, False))
+				if account in user_friends:
+					accounts.append((account, True))
+				else:
+					accounts.append((account, False))
 			context['accounts'] = accounts
 	return render(request, "account/search_results.html",context)
-
 
 
 def edit_account_view(request, *args, **kwargs):

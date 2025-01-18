@@ -11,7 +11,7 @@
             dataType: "json",
             url: "{% url 'friend:friend-request' %}",
             timeout: 5000,
-            data: payload,
+            data: payload, 
             success: function(data){
                 // console.log("succe")
                 if(data['response'] == "Friend request sent."){

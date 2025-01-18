@@ -107,5 +107,3 @@ class FriendRequest(models.Model):
         """
         self.is_active = False
         self.save()
-
-        

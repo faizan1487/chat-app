@@ -64,7 +64,6 @@ def send_friend_request(request, *args, **kwargs):
     return HttpResponse(json.dumps(payload), content_type="application/json")
 
 
-
 def accept_friend_request(request, *args, **kwargs):
     user = request.user
     payload = {} 
@@ -89,3 +88,23 @@ def accept_friend_request(request, *args, **kwargs):
     return HttpResponse(json.dumps(payload), content_type="application/json")
 
 
+def remove_friend(request, *args, **kwargs):
+    user = request.user
+    payload = {}
+    if request.method == "POST" and user.is_authenticated:
+        user_id = request.POST.get("receiver_user_id")
+        if user_id:
+            try:
+                removee = Account.objects.get(pk=user_id)
+                # get your friend list
+                friend_list = user.friend_list
+                # remove the friend
+                friend_list.unfriend(removee)
+                payload['response'] = "Successfully removed that friend"
+            except Exception as e:
+                payload['response'] = f"Something went wrong: {str(e)}"
+        else:
+            payload['response'] = "There was an error. Unable to remove that friend."
+    else:
+        payload['response'] = "You must be authenticated to remove a friend"
+    return HttpResponse(json.dumps(payload), content_type="application/json")
