@@ -3,7 +3,7 @@ from django.http import HttpResponse
 import json
 
 from account.models import Account
-from friend.models import FriendRequest
+from friend.models import FriendRequest, FriendList
 # Create your views here.
 
 
@@ -97,7 +97,7 @@ def remove_friend(request, *args, **kwargs):
             try:
                 removee = Account.objects.get(pk=user_id)
                 # get your friend list
-                friend_list = user.friend_list
+                friend_list = FriendList.objects.get(user=user)
                 # remove the friend
                 friend_list.unfriend(removee)
                 payload['response'] = "Successfully removed that friend"

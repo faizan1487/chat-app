@@ -137,12 +137,9 @@
 					
 				{% if is_friend %}
 					<div class="dropdown pt-4 m-auto">
-						<button class="btn btn-secondary dropdown-toggle friends-btn" type="button" id="id_friends_toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-						Friends
+						<button id="id_unfriend_btn" class="btn btn-secondary friends-btn" type="button">
+						Unfriend
 						</button>
-						<div class="dropdown-menu" aria-labelledby="id_friends_toggle">
-							<a class="dropdown-item" href="#" onclick="removeFriend('{{id}}', onFriendRemoved)">Unfriend</a>
-						</div>
 					</div>
 				{% endif %}
 				

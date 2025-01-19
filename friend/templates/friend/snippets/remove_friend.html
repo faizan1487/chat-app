@@ -1,4 +1,4 @@
-<script type="text/template">
+<script type="text/javascript">
 
     function removeFriend(id, uiUpdateFunction){
         payload = {
@@ -21,9 +21,10 @@
             },
             error: function(data){
                 alert("Something went wrong: " + data);
-            }
+            },
             complete: function(data){
                 uiUpdateFunction();
             }
-        });
+        })
     }
+</script>
