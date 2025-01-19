@@ -66,7 +66,7 @@ def send_friend_request(request, *args, **kwargs):
 
 def accept_friend_request(request, *args, **kwargs):
     user = request.user
-    payload = {} 
+    payload = {}
     if request.method == 'GET' and user.is_authenticated:
         friend_request_id = kwargs.get("friend_request_id")
         if friend_request_id:
@@ -107,4 +107,28 @@ def remove_friend(request, *args, **kwargs):
             payload['response'] = "There was an error. Unable to remove that friend."
     else:
         payload['response'] = "You must be authenticated to remove a friend"
+    return HttpResponse(json.dumps(payload), content_type="application/json")
+
+
+def decline_friend_request(request, *args, **kwargs):
+    user = request.user
+    payload = {}
+    if request.method == 'GET' and user.is_authenticated:
+        friend_request_id = kwargs.get("friend_request_id")
+        if friend_request_id:
+            friend_request = FriendRequest.objects.get(pk=friend_request_id)
+            
+            if friend_request.receiver == user:
+                if friend_request:
+                    #FOund the request noe accept it
+                    friend_request.decline()
+                    payload['response'] = "Friend request declined"
+                else:
+                    payload['response'] = "Something went wrong"
+            else:
+                payload['response'] = "This is not your request to decline"
+        else:
+            payload['response'] = "Unable to decline that friend request"
+    else:
+        payload['response'] = "You must be authenticated to decline a friend request"
     return HttpResponse(json.dumps(payload), content_type="application/json")
