@@ -25,8 +25,6 @@ def friend_requests(request, *args, **kwargs):
     return render(request, "friend/friend_requests.html", context)
 
 
-
-
 def send_friend_request(request, *args, **kwargs):
     user = request.user
     payload = {}
@@ -131,4 +129,28 @@ def decline_friend_request(request, *args, **kwargs):
             payload['response'] = "Unable to decline that friend request"
     else:
         payload['response'] = "You must be authenticated to decline a friend request"
+    return HttpResponse(json.dumps(payload), content_type="application/json")
+
+
+def cancel_friend_request(request, *args, **kwargs):
+    user = request.user
+    payload = {}
+    if request.method == 'POST' and user.is_authenticated:
+        user_id = request.POST.get("receiver_user_id")
+        if user_id:
+            receiver = Account.objects.get(pk=user_id)
+            try:
+                friend_requests = FriendRequest.objects.filter(sender=user, receiver=receiver, is_active=True)
+            except Exception as e:
+                payload['response'] = f"An error occured: {str(e)}"
+            if len(friend_requests) > 1:
+                for request in friend_requests:
+                    request.cancel()
+            else:
+                friend_requests.first().cancel()
+            payload['response'] = "Friend request cancelled"
+        else:
+            payload['response'] = "Unable to cancel that friend request"
+    else:
+        payload['response'] = "You must be authenticated to cancel a cancel request"
     return HttpResponse(json.dumps(payload), content_type="application/json")
