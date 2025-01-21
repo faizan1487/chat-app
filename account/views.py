@@ -160,14 +160,17 @@ def account_search_view(request, *args, **kwargs):
 				)
 			user = request.user
 			accounts = []
-			user_friends = user.user.friends.all()
-			for account in search_results:
-				if account in user_friends:
-					accounts.append((account, True))
-				else:
+			if user.is_authenticated:
+				auth_user_friend_list = FriendList.objects.get(user=user)
+				for account in search_results:
+					accounts.append((account, auth_user_friend_list.is_mutual_friend(account)))
+				context['accounts'] = accounts
+			else:
+				for account in search_results:
 					accounts.append((account, False))
-			context['accounts'] = accounts
-	return render(request, "account/search_results.html",context)
+				context['accounts'] = accounts
+
+	return render(request, "account/search_results.html", context)
 
 
 def edit_account_view(request, *args, **kwargs):

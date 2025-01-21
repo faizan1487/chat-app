@@ -5,12 +5,14 @@ from .views import (
     accept_friend_request,
     remove_friend,
     decline_friend_request,
-    cancel_friend_request
+    cancel_friend_request,
+    friend_list_view
 )
 
 app_name = "friend"
 
 urlpatterns = [
+    path('list/<user_id>/', friend_list_view, name='list'),
     path('friend_remove/', remove_friend, name='remove-friend'),
     path('friend_request/', send_friend_request, name='friend-request'),
     path('cancel_friend_request/', cancel_friend_request, name='friend-request-cancel'),
